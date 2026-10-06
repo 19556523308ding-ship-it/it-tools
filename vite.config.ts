@@ -57,14 +57,15 @@ export default defineConfig({
       registerType: 'autoUpdate',
       strategies: 'generateSW',
       manifest: {
-        name: 'IT Tools',
-        description: 'Aggregated set of useful tools for developers.',
+        name: 'Jinzhai Tools',
+        short_name: 'Jinzhai Tools',
+        description: '免费实用的在线开发者工具集合：JSON、Base64、UUID、Hash、网络、文本、图片等。',
         display: 'standalone',
-        lang: 'fr-FR',
+        lang: 'zh-CN',
         start_url: `${baseUrl}?utm_source=pwa&utm_medium=pwa`,
         orientation: 'any',
-        theme_color: '#18a058',
-        background_color: '#f1f5f9',
+        theme_color: '#2563ff',
+        background_color: '#f7fbff',
         icons: [
           {
             src: '/favicon-16x16.png',
