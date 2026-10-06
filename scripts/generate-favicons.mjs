@@ -42,28 +42,34 @@ function resolveChromiumExecutable() {
   return c.find(existsSync);
 }
 
-/** favicon 专用图形：主体几乎撑满画布，去掉速度线等细节 */
+/**
+ * favicon 专用图形。
+ *
+ * 与页面内的 logo-mark 的区别：主体放大到几乎撑满画布（原来只占 54%，
+ * 在标签页里看着很小），速度线去掉（小尺寸糊成一团），星光缩小并收进
+ * 画布内（原来超出 viewBox 被裁掉）。
+ */
 const ICON_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
   <defs>
-    <linearGradient id="g" x1="6" y1="4" x2="58" y2="62" gradientUnits="userSpaceOnUse">
+    <linearGradient id="g" x1="4" y1="4" x2="60" y2="62" gradientUnits="userSpaceOnUse">
       <stop stop-color="#3B82FF"/><stop offset="0.5" stop-color="#06B6D4"/><stop offset="1" stop-color="#14B8A6"/>
     </linearGradient>
-    <linearGradient id="s" x1="46" y1="2" x2="62" y2="20" gradientUnits="userSpaceOnUse">
+    <linearGradient id="s" x1="42" y1="4" x2="56" y2="18" gradientUnits="userSpaceOnUse">
       <stop stop-color="#C8F26A"/><stop offset="1" stop-color="#7DE3B0"/>
     </linearGradient>
   </defs>
-  <path d="M26 21v-4.5a5 5 0 0 1 10 0V21" stroke="url(#g)" stroke-width="4.4" stroke-linecap="round"/>
-  <rect x="11" y="19.5" width="41" height="38" rx="10.5" fill="url(#g)"/>
-  <g transform="translate(18.5 27)" stroke="#fff" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <path d="M25 20v-5.5a5.5 5.5 0 0 1 11 0V20" stroke="url(#g)" stroke-width="5" stroke-linecap="round"/>
+  <rect x="4" y="18" width="56" height="44" rx="13" fill="url(#g)"/>
+  <g transform="translate(11 21)" stroke="#fff" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M7 10h3v-3l-3.5-3.5a6 6 0 0 1 8 8l6 6a2 2 0 0 1-3 3l-6-6a6 6 0 0 1-8-8l3.5 3.5"/>
   </g>
-  <path d="M51 2.5l2.2 5.6 5.6 2.2-5.6 2.2L51 18.1l-2.2-5.6-5.6-2.2 5.6-2.2L51 2.5Z" fill="url(#s)"/>
+  <path d="M50 3.5l2.3 6.2 6.2 2.3-6.2 2.3-2.3 6.2-2.3-6.2-6.2-2.3 6.2-2.3 2.3-6.2Z" fill="url(#s)"/>
 </svg>`;
 
 /** safari-pinned-tab 必须是单色剪影，Safari 用 <link color> 着色 */
 const PINNED_TAB_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <path d="M26 21v-4.5a5 5 0 0 1 10 0V21h4v34a6 6 0 0 1-6 6H28a6 6 0 0 1-6-6V21h4Z"/>
-  <path d="M31 34l3.5-3.5a6 6 0 0 0-8 8l6 6a2 2 0 0 0 3-3l-6-6a6 6 0 0 0 1.5-1.5Z" fill="#fff"/>
+  <path d="M25 20v-5.5a5.5 5.5 0 0 1 11 0V20h4v42a4 4 0 0 1-4 4H28a4 4 0 0 1-4-4V20h4Z"/>
+  <path d="M29 34l3.5-3.5a6 6 0 0 0-8 8l6 6a2 2 0 0 0 3-3l-6-6a6 6 0 0 0 1.5-1.5Z" fill="#fff"/>
 </svg>`;
 
 /** 把若干 PNG 打包成 ICO（ICO 允许直接内嵌 PNG 数据） */
@@ -123,12 +129,13 @@ try {
     { file: 'apple-touch-icon.png', size: 180, scale: 1, bg: '#ffffff' },
     { file: 'android-chrome-192x192.png', size: 192, scale: 1 },
     { file: 'android-chrome-512x512.png', size: 512, scale: 1 },
-    // maskable 图标要留安全区，否则 Android 会裁掉主体
-    { file: 'mstile-144x144.png', size: 144, scale: 0.82 },
-    { file: 'mstile-150x150.png', size: 150, scale: 0.82 },
-    { file: 'mstile-70x70.png', size: 70, scale: 0.86 },
-    { file: 'mstile-310x310.png', size: 310, scale: 0.82 },
-    { file: 'mstile-310x150.png', w: 310, h: 150, scale: 0.7 },
+    // maskable 图标要留安全区，否则 Android 会裁掉主体。
+    // 图形本身已占约 87% 画布，这里只需再收一点给圆形裁切留余量。
+    { file: 'mstile-144x144.png', size: 144, scale: 0.88 },
+    { file: 'mstile-150x150.png', size: 150, scale: 0.88 },
+    { file: 'mstile-70x70.png', size: 70, scale: 0.9 },
+    { file: 'mstile-310x310.png', size: 310, scale: 0.88 },
+    { file: 'mstile-310x150.png', w: 310, h: 150, scale: 0.8 },
   ];
 
   for (const t of targets) {
