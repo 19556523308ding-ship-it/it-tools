@@ -28,6 +28,7 @@ syncRef(
         <component :is="layout">
           <RouterView />
         </component>
+        <command-palette />
       </NNotificationProvider>
     </NMessageProvider>
   </n-config-provider>
