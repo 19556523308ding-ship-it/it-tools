@@ -20,6 +20,37 @@ const toolsRedirectRoutes = tools
 
 const router = createRouter({
   history: createWebHistory(config.app.baseUrl),
+
+  // Header 导航用的是 /#all-tools、/#categories 这类 hash 链接。
+  // 没有 scrollBehavior 时，路由确实切换了、hash 也变了，但页面不会滚动，
+  // 表现为「点了没反应」。这里显式处理 hash 滚动，并给 sticky Header
+  // 留出高度偏移，避免目标区块被 Header 盖住。
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    }
+
+    if (to.hash) {
+      return new Promise((resolve) => {
+        // 等一帧，确保目标区块已渲染（首页是异步组件 + 区块懒挂载）
+        requestAnimationFrame(() => {
+          const el = document.querySelector(to.hash);
+          if (!el) {
+            resolve({ top: 0 });
+            return;
+          }
+          resolve({
+            el: to.hash,
+            top: 88, // Header 64px + 一点呼吸间距
+            behavior: 'smooth',
+          });
+        });
+      });
+    }
+
+    return { top: 0 };
+  },
+
   routes: [
     {
       path: '/',

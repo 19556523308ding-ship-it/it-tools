@@ -111,3 +111,41 @@ test('canonical and og url point to tools.jinzhai.icu', async ({ page }) => {
   const ogUrl = await page.locator('meta[property="og:url"]').getAttribute('content');
   expect(ogUrl).toBe('https://tools.jinzhai.icu/json-prettify');
 });
+
+/**
+ * 回归：Header 的「全部工具」/「工具分类」是 /#all-tools、/#categories 这类
+ * hash 链接。没有 router scrollBehavior 时路由会切换、hash 也会变，但页面
+ * 不滚动，表现为「点了没反应」。
+ */
+test('header hash links scroll to their sections', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.site-header__nav a', { hasText: /全部工具|All tools/ }).first().click();
+
+  await expect.poll(async () => {
+    return page.evaluate(() => Math.round(window.scrollY));
+  }, { timeout: 5000 }).toBeGreaterThan(100);
+
+  await expect(page.locator('#all-tools')).toBeInViewport();
+});
+
+test('header categories link scrolls to the categories section', async ({ page }) => {
+  await page.goto('/');
+  await page.locator('.site-header__nav a', { hasText: /工具分类|Categories/ }).first().click();
+
+  await expect.poll(async () => {
+    return page.evaluate(() => Math.round(window.scrollY));
+  }, { timeout: 5000 }).toBeGreaterThan(100);
+
+  await expect(page.locator('#categories')).toBeInViewport();
+});
+
+test('header hash link works from another page', async ({ page }) => {
+  await page.goto('/about');
+  await page.locator('.site-header__nav a', { hasText: /全部工具|All tools/ }).first().click();
+
+  await expect.poll(() => page.url(), { timeout: 5000 }).toContain('/#all-tools');
+
+  await expect.poll(async () => {
+    return page.evaluate(() => Math.round(window.scrollY));
+  }, { timeout: 5000 }).toBeGreaterThan(100);
+});
