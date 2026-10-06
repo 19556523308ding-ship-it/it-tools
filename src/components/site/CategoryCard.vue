@@ -48,6 +48,9 @@ const unit = computed(() => (lang.value === 'zh' ? '个工具' : 'tools'));
   box-shadow: var(--shadow-card);
   cursor: pointer;
   text-align: left;
+  /* 2 列窄屏下必须允许收缩，否则长分类名会把卡片撑破网格 */
+  min-width: 0;
+  overflow: hidden;
 }
 
 .category-card__icon {
@@ -72,9 +75,12 @@ const unit = computed(() => (lang.value === 'zh' ? '个工具' : 'tools'));
 }
 
 .category-card__name {
+  overflow: hidden;
   font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .category-card__count {
@@ -86,5 +92,31 @@ const unit = computed(() => (lang.value === 'zh' ? '个工具' : 'tools'));
   flex-shrink: 0;
   font-size: 20px;
   color: var(--text-tertiary);
+}
+
+@media (max-width: 400px) {
+  .category-card {
+    padding: 14px 14px;
+    gap: 10px;
+  }
+
+  .category-card__icon {
+    width: 38px;
+    height: 38px;
+    font-size: 20px;
+  }
+
+  .category-card__name {
+    font-size: 15px;
+  }
+
+  .category-card__count {
+    font-size: 12px;
+  }
+
+  /* 极窄屏优先保证分类名可读，箭头让位 */
+  .category-card__arrow {
+    display: none;
+  }
 }
 </style>

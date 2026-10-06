@@ -52,7 +52,24 @@ export default defineConfig({
     }),
     vueJsx(),
     markdown(),
-    svgLoader(),
+    svgLoader({
+      // SVGO 默认会把 gradient/clipPath 的 id 压缩成 a/b/c…，
+      // 多个内联 SVG（logo / orbit / hero-bg）撞 id 后
+      // hero-bg 的 rect 会引用到 logo 的绿色渐变，整块背景变绿。
+      // 这里关掉 id 压缩，保留各自的语义化 id。
+      svgoConfig: {
+        plugins: [
+          {
+            name: 'preset-default',
+            params: {
+              overrides: {
+                cleanupIds: false,
+              },
+            },
+          },
+        ],
+      },
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       strategies: 'generateSW',

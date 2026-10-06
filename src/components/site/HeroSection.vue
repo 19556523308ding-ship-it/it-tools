@@ -72,8 +72,9 @@ const { pick } = useLang();
 .hero__bg {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
+  display: block;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
 }
 

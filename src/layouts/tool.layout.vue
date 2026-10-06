@@ -167,10 +167,16 @@ useHead(head);
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 16px;
+  width: 100%;
+  max-width: 100%;
+  /* 编辑器类工具有固有最小宽度，让它在卡片内横向滚动，
+     而不是把整页撑出横向滚动条（375px 下尤其明显） */
+  overflow-x: auto;
 
   ::v-deep(& > *) {
     flex: 1 1 100%;
     min-width: 0;
+    max-width: 100%;
   }
 }
 
