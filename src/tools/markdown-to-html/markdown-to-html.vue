@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import markdownit from 'markdown-it';
+import DomPurify from 'dompurify';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 
 const inputMarkdown = ref('');
 const outputHtml = computed(() => {
   const md = markdownit();
-  return md.render(inputMarkdown.value);
+  return DomPurify.sanitize(md.render(inputMarkdown.value));
 });
 
 function printHtml() {
