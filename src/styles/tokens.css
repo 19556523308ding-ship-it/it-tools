@@ -1,0 +1,92 @@
+/**
+ * Jinzhai Tools — Design Tokens
+ * 全站唯一的设计变量来源。所有页面/组件都必须引用这里的变量，禁止各自硬编码色值/圆角/阴影。
+ */
+
+:root {
+  /* ============ 品牌色 ============ */
+  --brand-blue: #2563ff;
+  --brand-blue-strong: #1a4ce0;
+  --brand-blue-soft: #dbe7ff;
+  --brand-cyan: #06b6d4;
+  --brand-teal: #14b8a6;
+  --brand-lime: #a7f3d0;
+  --brand-lime-strong: #a3e635;
+
+  /* 品牌渐变 */
+  --grad-brand: linear-gradient(135deg, #2563ff 0%, #06b6d4 55%, #14b8a6 100%);
+  --grad-brand-soft: linear-gradient(135deg, #eaf1ff 0%, #e6fbfd 55%, #e8fbf5 100%);
+  --grad-hero: linear-gradient(180deg, #eef5ff 0%, #f7fbff 60%, #ffffff 100%);
+
+  /* ============ 文本 ============ */
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --text-tertiary: #94a3b8;
+  --text-on-brand: #ffffff;
+
+  /* ============ 背景 / 表面 ============ */
+  --bg-page: #f7fbff;
+  --bg-card: #ffffff;
+  --bg-soft: #edf5fe;
+  --bg-elevated: #ffffff;
+
+  /* ============ 描边 / 分隔 ============ */
+  --border-soft: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --border-brand: rgba(37, 99, 255, 0.35);
+
+  /* ============ 圆角 ============ */
+  --radius-xs: 8px;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
+
+  /* ============ 阴影 ============ */
+  --shadow-card: 0 8px 30px rgba(15, 23, 42, 0.06);
+  --shadow-card-hover: 0 16px 40px rgba(37, 99, 255, 0.14);
+  --shadow-header: 0 1px 0 rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.05);
+  --shadow-brand: 0 10px 30px rgba(37, 99, 255, 0.28);
+
+  /* ============ 布局 ============ */
+  --container: 1280px;
+  --header-h: 64px;
+  --content-width-normal: 960px;
+  --content-width-wide: 1200px;
+
+  /* ============ 字体 ============ */
+  --font-sans:
+    'Inter', 'HarmonyOS Sans SC', 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB',
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* ============ 动效 ============ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur-base: 220ms;
+  --dur-slow: 16s;
+}
+
+/* ============ 深色模式（第一阶段不主打，变量先就位，避免以后重写页面） ============ */
+.dark,
+html.dark,
+body.dark {
+  --text-primary: #e6edf7;
+  --text-secondary: #9fb0c6;
+  --text-tertiary: #6b7c93;
+
+  --bg-page: #0b1220;
+  --bg-card: #131c2e;
+  --bg-soft: #182444;
+  --bg-elevated: #131c2e;
+
+  --border-soft: #24314b;
+  --border-strong: #33415e;
+
+  --grad-hero: linear-gradient(180deg, #0e1830 0%, #0b1220 60%, #0b1220 100%);
+  --grad-brand-soft: linear-gradient(135deg, #14203c 0%, #10283a 55%, #102c33 100%);
+
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 16px 40px rgba(0, 0, 0, 0.55);
+  --shadow-header: 0 1px 0 rgba(255, 255, 255, 0.04), 0 8px 24px rgba(0, 0, 0, 0.4);
+}

@@ -8,6 +8,11 @@ import { plausible } from './plugins/plausible.plugin';
 
 import 'virtual:uno.css';
 
+// Jinzhai Tools 设计系统（全站唯一变量/容器/动效来源）
+import './styles/tokens.css';
+import './styles/global.css';
+import './styles/animations.css';
+
 import { naive } from './plugins/naive.plugin';
 
 import App from './App.vue';

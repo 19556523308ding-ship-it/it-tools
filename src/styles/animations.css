@@ -1,0 +1,84 @@
+/**
+ * Jinzhai Tools — Animations
+ * 只保留 4 类微动效：Hero 背景慢速漂浮 / 星光闪烁 / 卡片 hover / 箭头位移。
+ */
+
+/* 1) Hero 背景装饰：慢速漂浮（12–20s） */
+@keyframes jz-float-slow {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0) scale(1.03);
+  }
+}
+
+@keyframes jz-float-slower {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(14px, 12px, 0) scale(0.97);
+  }
+}
+
+.jz-float {
+  animation: jz-float-slow 16s var(--ease-out) infinite;
+}
+.jz-float-alt {
+  animation: jz-float-slower 20s var(--ease-out) infinite;
+}
+
+/* 2) 星光闪烁：scale 0.9 → 1.1, opacity 0.7 → 1 */
+@keyframes jz-twinkle {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.7;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.jz-twinkle {
+  animation: jz-twinkle 3.2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* 3) 卡片 hover（200ms）：translateY(-3px) + 阴影增强 + 边框变蓝 */
+.jz-card {
+  transition:
+    transform var(--dur-base) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
+}
+
+.jz-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: var(--border-brand) !important;
+}
+
+/* 4) 按钮 / 卡片箭头轻微右移 */
+.jz-arrow {
+  transition: transform var(--dur-base) var(--ease-out);
+}
+.jz-card:hover .jz-arrow,
+.jz-btn:hover .jz-arrow {
+  transform: translateX(3px);
+}
+
+/* 可访问性：尊重系统「减少动态效果」 */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

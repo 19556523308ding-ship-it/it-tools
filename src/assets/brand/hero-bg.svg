@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 520" fill="none" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Hero background">
+  <defs>
+    <linearGradient id="jzHeroBg" x1="0" y1="0" x2="1440" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF5FF" />
+      <stop offset="0.55" stop-color="#F4FBFF" />
+      <stop offset="1" stop-color="#FFFFFF" />
+    </linearGradient>
+    <radialGradient id="jzBlobBlue" cx="0" cy="0" r="1" gradientTransform="translate(300 120) scale(340 300)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4F8BFF" stop-opacity="0.35" />
+      <stop offset="1" stop-color="#4F8BFF" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="jzBlobCyan" cx="0" cy="0" r="1" gradientTransform="translate(1150 380) scale(360 320)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06B6D4" stop-opacity="0.3" />
+      <stop offset="1" stop-color="#06B6D4" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="jzBlobTeal" cx="0" cy="0" r="1" gradientTransform="translate(760 60) scale(260 220)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#14B8A6" stop-opacity="0.22" />
+      <stop offset="1" stop-color="#14B8A6" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="jzWaveLine" x1="0" y1="0" x2="1440" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2563FF" stop-opacity="0.18" />
+      <stop offset="0.5" stop-color="#06B6D4" stop-opacity="0.16" />
+      <stop offset="1" stop-color="#14B8A6" stop-opacity="0.12" />
+    </linearGradient>
+  </defs>
+
+  <rect width="1440" height="520" fill="url(#jzHeroBg)" />
+  <rect width="1440" height="520" fill="url(#jzBlobBlue)" />
+  <rect width="1440" height="520" fill="url(#jzBlobCyan)" />
+  <rect width="1440" height="520" fill="url(#jzBlobTeal)" />
+
+  <!-- 波浪线 -->
+  <path d="M-40 380C220 300 420 460 700 372C960 292 1180 420 1480 330" stroke="url(#jzWaveLine)" stroke-width="42" stroke-linecap="round" fill="none" />
+  <path d="M-40 440C260 372 460 500 760 424C1020 358 1220 470 1480 396" stroke="url(#jzWaveLine)" stroke-width="22" stroke-linecap="round" fill="none" opacity="0.7" />
+</svg>
