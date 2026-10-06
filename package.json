@@ -21,6 +21,11 @@
     "developer-tools",
     "developer-productivity"
   ],
+  "pnpm": {
+    "overrides": {
+      "@unhead/vue>@vueuse/shared": "12.0.0"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && NODE_OPTIONS=--max_old_space_size=4096 vite build",
