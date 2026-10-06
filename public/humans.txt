@@ -1,4 +1,9 @@
 /* TEAM */
+Developer: Jinzhai Tools
+Site: https://tools.jinzhai.icu
+Repository: https://github.com/19556523308ding-ship-it/it-tools
+
+/* UPSTREAM */
+/* 本项目基于 CorentinTh/it-tools 二次开发，遵循 GNU GPL v3 协议 */
 Developer: Corentin Thomasset
-Site: https://github.com/CorentinTh
-Twitter: @cthmsst
+Site: https://github.com/CorentinTh/it-tools
