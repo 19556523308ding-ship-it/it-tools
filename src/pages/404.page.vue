@@ -1,7 +1,14 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head';
 
-useHead({ title: 'Page not found - IT Tools' });
+useHead({
+  title: '页面不存在 - Jinzhai Tools',
+  meta: [
+    // 404 页不该被搜索引擎收录，避免稀释正常页面的权重
+    { name: 'robots', content: 'noindex, follow' },
+    { name: 'description', content: '该页面不存在。返回 Jinzhai Tools 首页继续使用在线开发者工具。' },
+  ],
+});
 </script>
 
 <template>

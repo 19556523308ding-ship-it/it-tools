@@ -59,6 +59,11 @@ export const site = {
       subtitle: { zh: '共 {count} 个实用工具', en: '{count} handy tools in total' },
       filterAll: { zh: '全部', en: 'All' },
       search: { zh: '搜索工具…', en: 'Search tools...' },
+      noResults: {
+        zh: '没有找到匹配的工具，换个关键词或清除筛选试试。',
+        en: 'No tools match your search. Try another keyword or clear the filters.',
+      },
+      clearFilters: { zh: '清除筛选', en: 'Clear filters' },
     },
     related: {
       title: { zh: '相关工具', en: 'Related tools' },

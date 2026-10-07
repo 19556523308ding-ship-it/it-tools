@@ -6,14 +6,17 @@ import { categories } from '@/config/categories';
 import { site } from '@/config/site';
 import { useLang } from '@/composable/useLang';
 
-const { pick, fill } = useLang();
+const { pick, fill, lang } = useLang();
 
 const year = new Date().getFullYear();
 
-const categoryLinks = computed(() => categories.slice(0, 8).map(category => ({
+// 分类链接带上 category 参数，点进去直接落到已筛选的列表，
+// 而不是全部指回 /#categories（那样 8 个链接点了没区别）
+const categoryLinks = computed(() => categories.map(category => ({
   id: category.id,
-  name: category.name,
-  to: '/#categories',
+  name: category.name[lang.value] ?? category.name.en,
+  to: '/#all-tools',
+  query: { category: category.id },
 })));
 
 const resourceLinks = computed(() => [
@@ -48,7 +51,7 @@ const resourceLinks = computed(() => [
             <RouterLink
               v-for="link in categoryLinks"
               :key="link.id"
-              :to="link.to"
+              :to="{ path: link.to, query: link.query }"
               class="site-footer__link"
             >
               {{ link.name }}

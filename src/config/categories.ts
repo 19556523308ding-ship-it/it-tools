@@ -8,7 +8,11 @@
 
 export interface SiteCategory {
   id: string
-  name: string
+  /**
+   * 双语分类名。UI 默认展示 en（站点主体语言），zh 作为副标题/中文用户可见。
+   *⚠️ 不要退回成纯字符串——英文 UI 里显示中文分类名会造成语言混杂。
+   */
+  name: { en: string; zh: string }
   /** tabler 图标 key，见 components/site/category-icons.ts 的映射 */
   icon: string
   accent: string
@@ -18,7 +22,7 @@ export interface SiteCategory {
 export const categories: SiteCategory[] = [
   {
     id: 'json',
-    name: 'JSON',
+    name: { en: 'JSON', zh: 'JSON' },
     icon: 'braces',
     accent: '#2563ff',
     toolPaths: [
@@ -36,7 +40,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'convert',
-    name: '转换',
+    name: { en: 'Convert', zh: '转换' },
     icon: 'switch',
     accent: '#06b6d4',
     toolPaths: [
@@ -54,7 +58,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'codec',
-    name: '编码/解码',
+    name: { en: 'Encode & Decode', zh: '编码/解码' },
     icon: 'code',
     accent: '#14b8a6',
     toolPaths: [
@@ -69,7 +73,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'web',
-    name: '网络',
+    name: { en: 'Web & Network', zh: '网络' },
     icon: 'world',
     accent: '#3b82ff',
     toolPaths: [
@@ -92,7 +96,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'image',
-    name: '图片',
+    name: { en: 'Image', zh: '图片' },
     icon: 'photo',
     accent: '#8b5cf6',
     toolPaths: [
@@ -104,7 +108,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'text',
-    name: '文本',
+    name: { en: 'Text', zh: '文本' },
     icon: 'text',
     accent: '#f59e0b',
     toolPaths: [
@@ -121,7 +125,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'security',
-    name: '安全',
+    name: { en: 'Security', zh: '安全' },
     icon: 'shield',
     accent: '#ef4444',
     toolPaths: [
@@ -143,7 +147,7 @@ export const categories: SiteCategory[] = [
   },
   {
     id: 'dev',
-    name: '开发',
+    name: { en: 'Developer', zh: '开发' },
     icon: 'tool',
     accent: '#0ea5e9',
     toolPaths: [

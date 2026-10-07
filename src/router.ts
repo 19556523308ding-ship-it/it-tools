@@ -31,6 +31,10 @@ const router = createRouter({
     }
 
     if (to.hash) {
+      // 同一路径 + 同一 hash、只有 query 变了（例如页脚分类链接 /
+      // /#all-tools?category=security），也必须滚一次，否则点了没反应
+      const sameAnchor = to.path === from.path && to.hash === from.hash;
+
       return new Promise((resolve) => {
         // 等一帧，确保目标区块已渲染（首页是异步组件 + 区块懒挂载）
         requestAnimationFrame(() => {
@@ -42,7 +46,7 @@ const router = createRouter({
           resolve({
             el: to.hash,
             top: 88, // Header 64px + 一点呼吸间距
-            behavior: 'smooth',
+            behavior: sameAnchor ? 'auto' : 'smooth',
           });
         });
       });

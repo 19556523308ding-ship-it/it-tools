@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { activeCategoryId, clearCategory, pendingScrollTarget } from './home-filter';
 import FeaturedToolCard from './FeaturedToolCard.vue';
 import { useToolStore } from '@/tools/tools.store';
@@ -8,7 +9,9 @@ import { site } from '@/config/site';
 import { useLang } from '@/composable/useLang';
 
 const toolStore = useToolStore();
-const { pick, fill } = useLang();
+const { pick, fill, lang } = useLang();
+const route = useRoute();
+const router = useRouter();
 
 const keyword = ref('');
 
@@ -32,6 +35,11 @@ const filteredTools = computed(() => {
   });
 });
 
+/** 分类筛选 chip 上的双语分类名 */
+function categoryLabel(category: { name: { en: string; zh: string } }) {
+  return category.name[lang.value] ?? category.name.en;
+}
+
 function scrollToAllTools() {
   document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -43,12 +51,43 @@ watch(activeCategoryId, (id) => {
   }
 });
 
+/**
+ * 支持 /#all-tools?category=security 这种深链：
+ * 页脚的分类链接直接带上category 参数，点进来就已经筛好。
+ */
+function applyCategoryFromQuery(value: unknown) {
+  const id = typeof value === 'string' ? value : null;
+  if (!id) {
+    return;
+  }
+  if (!categories.some(c => c.id === id)) {
+    return;
+  }
+  activeCategoryId.value = id;
+}
+
+// 首次进入与query 变化（例如点了页脚某个分类）都要应用
+watch(() => route.query.category, applyCategoryFromQuery, { immediate: true });
+
 onMounted(() => {
   if (pendingScrollTarget.value === 'all-tools') {
     pendingScrollTarget.value = null;
     window.requestAnimationFrame(scrollToAllTools);
   }
 });
+
+/** 空状态：清掉关键词 + 分类，回到全部工具 */
+function resetFilters() {
+  keyword.value = '';
+  clearCategory();
+  // 同步清掉地址栏上的 ?category，否则刷新后又会被query 还原
+  if (route.query.category) {
+    const { category, ...rest } = route.query;
+    router.replace({ path: route.path, hash: route.hash, query: rest });
+  }
+}
+
+const hasFilters = computed(() => Boolean(keyword.value.trim()) || Boolean(activeCategoryId.value));
 </script>
 
 <template>
@@ -95,13 +134,24 @@ onMounted(() => {
           :style="{ '--chip-accent': category.accent }"
           @click="activeCategoryId = activeCategoryId === category.id ? null : category.id"
         >
-          {{ category.name }}
+          {{ categoryLabel(category) }}
         </button>
       </div>
 
-      <p v-if="filteredTools.length === 0" class="alltools-empty">
-        {{ pick(site.copy.allTools.search) }}
-      </p>
+      <div v-if="filteredTools.length === 0" class="alltools-empty">
+        <icon-mdi-magnify-close-outline class="alltools-empty__icon" />
+        <p class="alltools-empty__text">
+          {{ pick(site.copy.allTools.noResults) }}
+        </p>
+        <button
+          v-if="hasFilters"
+          type="button"
+          class="alltools-empty__reset jz-btn jz-btn--ghost"
+          @click="resetFilters"
+        >
+          {{ pick(site.copy.allTools.clearFilters) }}
+        </button>
+      </div>
 
       <div v-else class="alltools-grid">
         <FeaturedToolCard
@@ -188,9 +238,27 @@ onMounted(() => {
 }
 
 .alltools-empty {
-  padding: 48px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 48px 16px;
   text-align: center;
   color: var(--text-tertiary);
+}
+
+.alltools-empty__icon {
+  font-size: 40px;
+  opacity: 0.45;
+}
+
+.alltools-empty__text {
+  margin: 0;
+  font-size: 15px;
+}
+
+.alltools-empty__reset {
+  margin-top: 4px;
 }
 
 .alltools-grid {

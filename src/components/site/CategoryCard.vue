@@ -13,6 +13,9 @@ const icon = computed(() => getCategoryIcon(props.category.icon));
 // 数量永远从 toolPaths.length 动态算，新增工具自动更新
 const count = computed(() => props.category.toolPaths.length);
 const unit = computed(() => (lang.value === 'zh' ? '个工具' : 'tools'));
+
+// 分类名双语：跟随当前语言，英文 UI 下不再出现中文分类名
+const displayName = computed(() => props.category.name[lang.value] ?? props.category.name.en);
 </script>
 
 <template>
@@ -27,7 +30,7 @@ const unit = computed(() => (lang.value === 'zh' ? '个工具' : 'tools'));
     </span>
 
     <span class="category-card__body">
-      <span class="category-card__name">{{ category.name }}</span>
+      <span class="category-card__name">{{ displayName }}</span>
       <span class="category-card__count">{{ count }} {{ unit }}</span>
     </span>
 
