@@ -139,18 +139,18 @@ const hasFilters = computed(() => Boolean(keyword.value.trim()) || Boolean(activ
       </div>
 
       <div v-if="filteredTools.length === 0" class="alltools-empty">
-        <icon-mdi-magnify-close-outline class="alltools-empty__icon" />
+        <icon-mdi-magnify-remove-outline class="alltools-empty__icon" />
         <p class="alltools-empty__text">
           {{ pick(site.copy.allTools.noResults) }}
         </p>
-        <button
+        <c-button
           v-if="hasFilters"
-          type="button"
-          class="alltools-empty__reset jz-btn jz-btn--ghost"
+          class="alltools-empty__reset"
+          size="small"
           @click="resetFilters"
         >
           {{ pick(site.copy.allTools.clearFilters) }}
-        </button>
+        </c-button>
       </div>
 
       <div v-else class="alltools-grid">
