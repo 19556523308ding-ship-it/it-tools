@@ -112,6 +112,7 @@ declare module '@vue/runtime-core' {
     IconMdiGithub: typeof import('~icons/mdi/github')['default']
     IconMdiHeart: typeof import('~icons/mdi/heart')['default']
     IconMdiMagnify: typeof import('~icons/mdi/magnify')['default']
+    IconMdiMagnifyRemoveOutline: typeof import('~icons/mdi/magnify-remove-outline')['default']
     IconMdiMenu: typeof import('~icons/mdi/menu')['default']
     IconMdiPause: typeof import('~icons/mdi/pause')['default']
     IconMdiPlay: typeof import('~icons/mdi/play')['default']
