@@ -9,7 +9,7 @@
  *
  * 用法: node scripts/prerender.mjs
  */
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, rmSync } from 'node:fs';
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -173,7 +173,16 @@ function breadcrumbJsonLd(tool) {
   };
 }
 
-/** 把 head 注入到 index.html 的 </head> 前 */
+/**
+ * 页面输出路径。
+ *
+ * 用 `<path>.html` 而不是 `<path>/index.html`：Cloudflare Pages 看到目录会自动
+ * 308 补尾斜杠（/json-prettify -> /json-prettify/），每个工具页都白白多一跳。
+ * 写成 .html 文件则不会触发补斜杠，再由 _redirects 把无后缀URL 301 到 .html。
+ */
+function outputFileFor(routePath) {
+  return routePath === '' ? 'index.html' : `${routePath}.html`;
+}
 function injectHead(html, { title, description, keywords, canonical, jsonLd, ogType }) {
   const tags = [
     `<title>${esc(title)}</title>`,
@@ -211,6 +220,23 @@ const template = readFileSync(resolve(dist, 'index.html'), 'utf8');
 const tools = collectTools();
 console.log(`已解析 ${tools.length} 个工具元信息`);
 
+// 清理上一轮可能残留的目录式产物（早期版本输出 <path>/index.html，会被
+// Cloudflare 自动补尾斜杠）。只删「本脚本会生成的」那些目录，不碰
+// assets / icons / og 等真实资源目录。
+{
+  const KEEP = new Set(['assets', 'icons', 'og', 'api']);
+  let removed = 0;
+  for (const entry of readdirSync(dist, { withFileTypes: true })) {
+    if (!entry.isDirectory() || KEEP.has(entry.name)) continue;
+    const asIndex = join(dist, entry.name, 'index.html');
+    if (existsSync(asIndex) || existsSync(join(dist, `${entry.name}.html`))) {
+      rmSync(join(dist, entry.name), { recursive: true, force: true });
+      removed++;
+    }
+  }
+  if (removed > 0) console.log(`清理旧的目录式产物: ${removed} 个`);
+}
+
 let written = 0;
 
 // ---- 首页 ----
@@ -240,8 +266,9 @@ let written = 0;
   });
   const dir = resolve(dist, 'about');
   mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'index.html'), about);
+  writeFileSync(resolve(dist, outputFileFor('about')), about);
   written++;
+  rmSync(dir, { recursive: true, force: true });
 }
 
 // ---- 86 个工具页 ----
@@ -254,9 +281,7 @@ for (const tool of tools) {
     ogType: 'article',
     jsonLd: [softwareJsonLd(tool), breadcrumbJsonLd(tool)],
   });
-  const dir = resolve(dist, tool.path);
-  mkdirSync(dir, { recursive: true });
-  writeFileSync(join(dir, 'index.html'), html);
+  writeFileSync(resolve(dist, outputFileFor(tool.path)), html);
   written++;
 }
 
@@ -297,7 +322,7 @@ console.log(`✅ 预渲染完成：${written} 个页面（首页 + About + ${too
 
 // ---- 抽样自检 ----
 const sample = tools[0];
-const check = readFileSync(resolve(dist, sample.path, 'index.html'), 'utf8');
+const check = readFileSync(resolve(dist, outputFileFor(sample.path)), 'utf8');
 const checks = [
   ['title', check.includes(`<title>${sample.title} - ${SITE_NAME}</title>`)],
   ['canonical', check.includes(`rel="canonical" href="${SITE_URL}/${sample.path}"`)],

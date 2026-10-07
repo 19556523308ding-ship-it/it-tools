@@ -1,1 +1,3 @@
-/*    /index.html   200
+# SPA fallback：预渲染的 HTML 文件不存在时才回退到首页。
+# 放在最后，否则会抢在真实文件前面。
+/*    /index.html    200
