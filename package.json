@@ -28,7 +28,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && NODE_OPTIONS=--max_old_space_size=4096 vite build",
+    "build": "vue-tsc --noEmit && NODE_OPTIONS=--max_old_space_size=4096 vite build && node scripts/prerender.mjs",
     "preview": "vite preview --port 5050",
     "test": "npm run test:unit",
     "test:unit": "vitest --environment jsdom",
@@ -39,7 +39,8 @@
     "lint": "eslint src --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --ignore-path .gitignore",
     "script:create:tool": "node scripts/create-tool.mjs",
     "script:create:ui": "hygen generator ui-component",
-    "release": "node ./scripts/release.mjs"
+    "release": "node ./scripts/release.mjs",
+    "prerender": "node scripts/prerender.mjs"
   },
   "dependencies": {
     "@it-tools/bip39": "^0.0.4",
